@@ -1,0 +1,30 @@
+{
+  "name": "clickervolt/clickervolt",
+  "description": "ClickerVolt WordPress plugin",
+  "type": "wordpress-plugin",
+  "license": "GPL-3.0-or-later",
+  "require": {
+    "php": ">=8.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "ClickerVolt\\Core\\": "src/Core/",
+      "ClickerVolt\\Admin\\": "src/Admin/"
+    },
+    "classmap": [
+      "admin/",
+      "db/",
+      "redirect/",
+      "utils/",
+      "pixel/",
+      "freemiusSetup.php"
+    ],
+    "files": [
+      "go.php"
+    ]
+  },
+  "config": {
+    "sort-packages": true,
+    "optimize-autoloader": true
+  }
+}
