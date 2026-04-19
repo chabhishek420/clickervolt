@@ -6,6 +6,7 @@ require_once __DIR__ . '/../../db/tableLinks.php';
 
 class RedirectHooks
 {
+    const UNSAFE_PHP_HOOKS_FLAG = 'CLICKERVOLT_ENABLE_UNSAFE_PHP_HOOKS';
 
     /**
      * 
@@ -32,7 +33,7 @@ SCRIPT;
      */
     static function executePHP($code)
     {
-        $code = str_replace(['<?php', '?>', '<?='], '', $code);
-        eval($code);
+        // Legacy behavior used eval(); permanently disabled for security hardening.
+        return;
     }
 }

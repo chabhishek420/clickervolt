@@ -208,32 +208,35 @@ class AjaxStats extends Ajax
                 if ($countryCode) {
                     $cc = str_replace('uk', 'gb', strtolower($countryCode));
                     $cn = str_replace("'", "-", CountryCodes::MAP[$countryCode]);
-                    $iconPath = plugins_url() . "/{$clickerVoltBaseFolder}/admin/images/icons/flags/{$cc}.png";
-                    $countryIcon = "<span class='countries'><img src='{$iconPath}' title='{$cn}'></span>";
+                    $iconPath = esc_url(plugins_url() . "/{$clickerVoltBaseFolder}/admin/images/icons/flags/{$cc}.png");
+                    $countryIcon = "<span class='countries'><img src='{$iconPath}' title='" . esc_attr($cn) . "'></span>";
                 } else {
                     $countryIcon = "";
                 }
 
-                $iconURL = self::getIconURL('admin/images/icons/browsers', empty($browserNamesToCodes[$deviceBrowser]) ? '' : $browserNamesToCodes[$deviceBrowser]);
-                $browserIcon = "<span class='browser'><img src='{$iconURL}' title='{$deviceBrowser}'></span>";
+                $iconURL = esc_url(self::getIconURL('admin/images/icons/browsers', empty($browserNamesToCodes[$deviceBrowser]) ? '' : $browserNamesToCodes[$deviceBrowser]));
+                $browserIcon = "<span class='browser'><img src='{$iconURL}' title='" . esc_attr((string) $deviceBrowser) . "'></span>";
 
-                $iconURL = self::getIconURL('admin/images/icons/os', empty($osNamesToCodes[$deviceOS]) ? '' : $osNamesToCodes[$deviceOS]);
-                $osIcon = "<span class='os'><img src='{$iconURL}' title='{$deviceOS} {$deviceOSVersion}'></span>";
+                $iconURL = esc_url(self::getIconURL('admin/images/icons/os', empty($osNamesToCodes[$deviceOS]) ? '' : $osNamesToCodes[$deviceOS]));
+                $osIcon = "<span class='os'><img src='{$iconURL}' title='" . esc_attr((string) $deviceOS . ' ' . (string) $deviceOSVersion) . "'></span>";
 
                 $returningVisitorIcon = $isUnique ? '' : "<i class='material-icons returning-visitor' title='Returning Visitor'></i>";
 
                 if ($referrer) {
                     $parts = parse_url($referrer);
-                    $referrer = "{$parts['host']} <a href='{$referrer}' target='_blank' title='{$referrer}'><i class='material-icons url'></i></a>";
+                    $refHost = (!empty($parts['host']) ? $parts['host'] : $referrer);
+                    $referrerURL = esc_url($referrer);
+                    $referrer = esc_html((string) $refHost) . " <a href='{$referrerURL}' target='_blank' rel='noopener noreferrer' title='" . esc_attr((string) $referrer) . "'><i class='material-icons url'></i></a>";
                 }
 
-                $slug = "{$slug} <a href='{$url}' target='_blank' title='{$url}'><i class='material-icons url'></i></a>";
+                $slug = esc_html((string) $slug) . " <a href='" . esc_url($url) . "' target='_blank' rel='noopener noreferrer' title='" . esc_attr((string) $url) . "'><i class='material-icons url'></i></a>";
 
                 $row = [
                     $date, $clickId, $slug,
                     implode(' ', [$countryIcon, $browserIcon, $osIcon, $returningVisitorIcon]),
-                    $isp, $ip, $source, $referrer, $actionRevenue, $duration->humanize($timeToAction),
-                    $v1, $v2, $v3, $v4, $v5, $v6, $v7, $v8, $v9, $v10
+                    esc_html((string) $isp), esc_html((string) $ip), esc_html((string) $source), $referrer, $actionRevenue, $duration->humanize($timeToAction),
+                    esc_html((string) $v1), esc_html((string) $v2), esc_html((string) $v3), esc_html((string) $v4), esc_html((string) $v5),
+                    esc_html((string) $v6), esc_html((string) $v7), esc_html((string) $v8), esc_html((string) $v9), esc_html((string) $v10)
                 ];
 
                 if ($lastClickId) {

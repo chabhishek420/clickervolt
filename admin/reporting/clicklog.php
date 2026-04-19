@@ -22,6 +22,7 @@ class ClickLog
     function getRows($count = 50)
     {
         global $wpdb;
+        $count = max(1, min(500, absint($count)));
 
         try {
             $prevTimezone = \ClickerVolt\DB::singleton()->setTimezone('+0:00');
@@ -31,8 +32,10 @@ class ClickLog
             // then the log will only return the clicks that are more recent than this click id filter
             foreach ($this->request->segments as $segment) {
                 if ($segment->getType() == Segment::TYPE_CLICK_ID && !empty($segment->getFilter())) {
-                    $clickId = $segment->getFilter();
-                    $conditions[] = "clicks.id > '{$clickId}'";
+                    $clickId = absint($segment->getFilter());
+                    if ($clickId > 0) {
+                        $conditions[] = $wpdb->prepare('clicks.id > %d', $clickId);
+                    }
                 }
             }
             $conditionsStr = empty($conditions) ? '' : 'where ' . implode(' and ', $conditions);
@@ -134,7 +137,7 @@ class ClickLog
             if (!empty($rows)) {
                 $oldestRow = $rows[count($rows) - 1];
                 $oldestClickTime = $oldestRow['eventTime'];
-                $conditions[] = "actions.actionTimestamp >= {$oldestClickTime}";
+                $conditions[] = $wpdb->prepare('actions.actionTimestamp >= %d', absint($oldestClickTime));
                 $conditionsStr = empty($conditions) ? '' : 'where ' . implode(' and ', $conditions);
 
                 $actionsSQL = "select
