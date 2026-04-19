@@ -252,7 +252,7 @@ class TableLinks extends Table
                         UNIQUE KEY `slug_idx` (`slug`)
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
 
-            $res = $wpdb->query($sql);
+            $res = $this->executeSchemaQuery($sql);
             if ($res === false) {
                 throw new \Exception("Cannot create table {$tableName}: {$wpdb->last_error}");
             }
@@ -263,7 +263,7 @@ class TableLinks extends Table
                         ADD `costType` tinyint unsigned NOT NULL,
                         ADD `costValue` double NOT NULL default 0";
 
-                $res = $wpdb->query($sql);
+                $res = $this->executeSchemaQuery($sql);
                 if ($res === false) {
                     throw new \Exception("Cannot update table {$tableName}: {$wpdb->last_error}");
                 }
@@ -273,7 +273,7 @@ class TableLinks extends Table
                 $sql = "ALTER TABLE {$tableName}
                         MODIFY `slug` varchar(128) NOT NULL";
 
-                $res = $wpdb->query($sql);
+                $res = $this->executeSchemaQuery($sql);
                 if ($res === false) {
                     throw new \Exception("Cannot update table {$tableName}: {$wpdb->last_error}");
                 }

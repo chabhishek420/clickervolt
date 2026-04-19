@@ -60,7 +60,7 @@ class TableFunnelLinks extends Table
                         KEY `funnelLinkId_idx` (`funnelLinkId`)
                     ) ENGINE=InnoDB";
 
-            $res = $wpdb->query($sql);
+            $res = $this->executeSchemaQuery($sql);
             if ($res === false) {
                 throw new \Exception("Cannot create table {$tableName}: {$wpdb->last_error}");
             }

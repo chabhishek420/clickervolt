@@ -119,7 +119,7 @@ class TableActions extends Table
                         key `actionTimestamp_idx` (`actionTimestamp`)
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
 
-            $res = $wpdb->query($sql);
+            $res = $this->executeSchemaQuery($sql);
             if ($res === false) {
                 throw new \Exception("Cannot create table {$tableName}: {$wpdb->last_error}");
             }
@@ -132,7 +132,7 @@ class TableActions extends Table
                         ADD actionTimestamp INT UNSIGNED NULL,
                         ADD KEY `actionTimestamp_idx` (`actionTimestamp`)";
 
-                $res = $wpdb->query($sql);
+                $res = $this->executeSchemaQuery($sql);
                 if ($res === false) {
                     throw new \Exception("Cannot update table {$tableName}: {$wpdb->last_error}");
                 }

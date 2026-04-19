@@ -243,7 +243,7 @@ class TableClicks extends Table
 
             $res = $wpdb->query("{$sql} {$partitionClause}");
             if ($res === false) {
-                $res = $wpdb->query($sql);
+                $res = $this->executeSchemaQuery($sql);
             }
             if ($res === false) {
                 throw new \Exception("Cannot create table {$tableName}: {$wpdb->last_error}");

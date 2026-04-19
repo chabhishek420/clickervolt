@@ -168,5 +168,30 @@ abstract class Table
         }
     }
 
+    /**
+     * Execute table schema statements using dbDelta for CREATE TABLE and raw query otherwise.
+     *
+     * @param string $sql
+     * @return int|array|false
+     */
+    protected function executeSchemaQuery($sql)
+    {
+        global $wpdb;
+
+        if (preg_match('/^\s*CREATE\s+TABLE/i', $sql)) {
+            require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
+            $charsetCollate = $wpdb->get_charset_collate();
+            $sql = preg_replace('/\)\s*ENGINE=.*?;/is', ') ENGINE=InnoDB ' . $charsetCollate . ';', $sql);
+            if (!preg_match('/\)\s*ENGINE=.*?;/is', $sql)) {
+                $sql = rtrim(trim($sql), ';') . ' ENGINE=InnoDB ' . $charsetCollate . ';';
+            }
+
+            return dbDelta($sql);
+        }
+
+        return $wpdb->query($sql);
+    }
+
     const NULL_TOKEN = '##null##';
 }

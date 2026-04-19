@@ -64,7 +64,7 @@ class TableURLsPaths extends Table
                         primary key (`hash`)
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8";
 
-            $res = $wpdb->query($sql);
+            $res = $this->executeSchemaQuery($sql);
             if ($res === false) {
                 throw new \Exception("Cannot create table {$tableName}: {$wpdb->last_error}");
             }

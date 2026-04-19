@@ -1,9 +1,9 @@
 === ClickerVolt - Affiliate Link & Click Tracking for Performance Marketers ===
 Contributors: clickervolt
 Tags: affiliate link, click tracking, link tracking, shortlink, url, page cloaker, link cloaker, cloaker, cloaking, redirect, redirection, drilldown, stats, statistics, marketing, aida
-Requires at least: 4.9
-Tested up to: 5.3
-Requires PHP: 5.6
+Requires at least: 6.5
+Tested up to: 6.7
+Requires PHP: 8.2
 Stable tag: trunk
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -271,6 +271,12 @@ Yes, we do! Install the plugin and click on the "affiliation" menu to start prom
 6. Traffic Source tokens
 
 == Changelog ==
+= 1.146 =
+* Modernized plugin bootstrap for WordPress 6.5+ and PHP 8.2+.
+* Added Composer autoloading support and PSR-4 core classes.
+* Added runtime compatibility checks and a health-check admin page.
+* Hardened click log output escaping, session handling, and schema execution path.
+
 = 1.145 =
 * Updated device detection API
 * Fixed broken icons in live view for some exotic browsers

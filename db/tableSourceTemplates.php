@@ -148,7 +148,7 @@ class TableSourceTemplates extends Table
                         UNIQUE KEY `sourceName_idx` (`sourceName`)
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
 
-            $res = $wpdb->query($sql);
+            $res = $this->executeSchemaQuery($sql);
             if ($res === false) {
                 throw new \Exception("Cannot create table {$tableName}: {$wpdb->last_error}");
             }

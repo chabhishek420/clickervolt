@@ -10,7 +10,7 @@ if (file_exists(__DIR__ . '/../DEBUG.php')) {
 
 class DB
 {
-    const VERSION = 1.145;
+    const VERSION = '1.146';
 
     const OPTION_VERSION = 'clickervolt-version';
 
@@ -92,8 +92,8 @@ class DB
      */
     public function setupTables()
     {
-        $v = get_option(DB::OPTION_VERSION);
-        if (!$v || $v < DB::VERSION) {
+        $v = (string) get_option(DB::OPTION_VERSION, '0.0.0');
+        if (version_compare($v, DB::VERSION, '<')) {
 
             foreach (DB::$tableClasses as $tableClass) {
                 $filename = StringTools::getFileNameFromClassPath($tableClass);
@@ -103,7 +103,7 @@ class DB
                 $classInstance->setup($v, DB::VERSION);
             }
 
-            if ($v < 1.099) {
+            if (version_compare($v, '1.099', '<')) {
                 $timestamp = wp_next_scheduled('clickervolt_cron_maxmind_update');
                 if ($timestamp) {
                     wp_unschedule_event($timestamp, 'clickervolt_cron_maxmind_update');

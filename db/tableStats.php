@@ -169,7 +169,7 @@ abstract class TableStats extends Table
 
             $res = $wpdb->query("{$sql} {$partitionClause}");
             if ($res === false) {
-                $res = $wpdb->query($sql);
+                $res = $this->executeSchemaQuery($sql);
             }
             if ($res === false) {
                 throw new \Exception("Cannot create table {$tableName}: {$wpdb->last_error}");
@@ -182,7 +182,7 @@ abstract class TableStats extends Table
                         DROP COLUMN qualitySamples,
                         DROP COLUMN qualityScoreSum";
 
-                $res = $wpdb->query($sql);
+                $res = $this->executeSchemaQuery($sql);
                 if ($res === false) {
                     throw new \Exception("Cannot update table {$tableName}: {$wpdb->last_error}");
                 }
@@ -198,7 +198,7 @@ abstract class TableStats extends Table
                             MODIFY suspiciousScoreSum int not null default 0";
                 }
 
-                $res = $wpdb->query($sql);
+                $res = $this->executeSchemaQuery($sql);
                 if ($res === false) {
                     throw new \Exception("Cannot update table {$tableName}: {$wpdb->last_error}");
                 }
