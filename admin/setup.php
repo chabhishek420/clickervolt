@@ -18,6 +18,11 @@ class Setup
      */
     static function onActivate()
     {
+        if (!\ClickerVolt\Core\Compatibility::isCompatible()) {
+            \ClickerVolt\Core\Compatibility::maybeDeactivateAndShowNotice();
+            return;
+        }
+
         DB::singleton()->setupTables();
     }
 
@@ -26,7 +31,9 @@ class Setup
      */
     static function onLoaded()
     {
-        if (!defined('DOING_AJAX') && !defined('DOING_CRON')) {
+        $isDoingAjax = function_exists('wp_doing_ajax') ? wp_doing_ajax() : (defined('DOING_AJAX') && DOING_AJAX);
+        $isDoingCron = function_exists('wp_doing_cron') ? wp_doing_cron() : (defined('DOING_CRON') && DOING_CRON);
+        if (!$isDoingAjax && !$isDoingCron) {
             if (is_admin()) {
                 DB::singleton()->setupTables();
                 self::refreshCache();
@@ -48,10 +55,7 @@ class Setup
         ];
 
         foreach ($crons as $cron) {
-            $timestamp = wp_next_scheduled($cron);
-            if ($timestamp) {
-                wp_unschedule_event($timestamp, $cron);
-            }
+            wp_clear_scheduled_hook($cron);
         }
     }
 
@@ -122,11 +126,15 @@ class Setup
             ];
 
             foreach ($jsFiles as $handle => $file) {
-                wp_enqueue_script($handle, plugins_url() . "{$file}?v={$version}");
+                if (!empty($file)) {
+                    wp_enqueue_script($handle, plugins_url($file), [], $version, true);
+                } else {
+                    wp_enqueue_script($handle);
+                }
             }
 
             foreach ($cssFiles as $handle => $file) {
-                wp_enqueue_style($handle, plugins_url() . "{$file}?v={$version}");
+                wp_enqueue_style($handle, plugins_url($file), [], $version);
             }
 
             self::localizeJS();
@@ -216,6 +224,14 @@ class Setup
         //     'new-link',
         //     [ '\\ClickerVolt\\ViewLoader', 'newLink' ]
         // );
+        add_submenu_page(
+            $mainSlug,
+            'Health Check',
+            'Health Check',
+            'manage_options',
+            'clickervolt-health',
+            ['\\ClickerVolt\\Admin\\HealthPage', 'render']
+        );
     }
 
     /**

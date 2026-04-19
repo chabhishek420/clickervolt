@@ -6,6 +6,15 @@ class Plugin
 {
     public static function bootstrap()
     {
+        register_activation_hook(CLICKERVOLT_PLUGIN_FILE, ['ClickerVolt\\Setup', 'onActivate']);
+        register_deactivation_hook(CLICKERVOLT_PLUGIN_FILE, ['ClickerVolt\\Setup', 'onDeactivate']);
+        register_uninstall_hook(CLICKERVOLT_PLUGIN_FILE, ['ClickerVolt\\Setup', 'onDelete']);
+
+        Compatibility::maybeDeactivateAndShowNotice();
+        if (!Compatibility::isCompatible()) {
+            return;
+        }
+
         if (function_exists('\\ClickerVolt\\cli_fs')) {
             \ClickerVolt\cli_fs()->set_basename(true, CLICKERVOLT_PLUGIN_FILE);
             return;
@@ -65,10 +74,6 @@ class Plugin
         if (!is_admin() && !$isDoingAjax && !$isDoingCron) {
             return;
         }
-
-        register_activation_hook(CLICKERVOLT_PLUGIN_FILE, ['ClickerVolt\\Setup', 'onActivate']);
-        register_deactivation_hook(CLICKERVOLT_PLUGIN_FILE, ['ClickerVolt\\Setup', 'onDeactivate']);
-        register_uninstall_hook(CLICKERVOLT_PLUGIN_FILE, ['ClickerVolt\\Setup', 'onDelete']);
 
         add_action('admin_enqueue_scripts', ['ClickerVolt\\Setup', 'enqueueScripts']);
         add_action('admin_menu', ['ClickerVolt\\Setup', 'addMainMenu']);
