@@ -15,7 +15,7 @@
             </p>
         </div>
     </div>
-    <a href="https://help.clickervolt.com/" target="_blank" class="button">Docs & Tutorials</a>
+    <a href="https://clickervolt.com/help/" target="_blank" class="button">Docs & Tutorials</a>
 
     <div id="tabs-for-stats" class="tabs-wrapper">
 

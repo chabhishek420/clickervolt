@@ -102,7 +102,11 @@ class URLTools
 
         $path = FileTools::getDataFolderPath('misc') . '/plugin-url';
         if ($forceUpdate || !file_exists($path)) {
-            if (false === file_put_contents($path, plugins_url() . '/clickervolt')) {
+            $pluginUrl = function_exists('plugin_dir_url')
+                ? untrailingslashit(plugin_dir_url(CLICKERVOLT_PLUGIN_FILE))
+                : untrailingslashit(plugins_url('', CLICKERVOLT_PLUGIN_FILE));
+
+            if (false === file_put_contents($path, $pluginUrl)) {
                 throw new \Exception("Cannot write clickervolt plugin's URL to disk");
             }
         }

@@ -351,7 +351,7 @@ class AjaxLinks extends Ajax
      */
     static function getAIDAScriptTemplate()
     {
-        return JSTracking::getRemoteTrackingScript('#SLUG#', ['minimize ' => true]);
+        return JSTracking::getRemoteTrackingScript('#SLUG#', ['minimize' => true]);
     }
 
     /**
