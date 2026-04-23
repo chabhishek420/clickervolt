@@ -17,7 +17,15 @@ class FileTools
      */
     static function atomicLoad( $filename )
     {
+        if ( !file_exists( $filename ) || !is_readable( $filename ) ) {
+            return null;
+        }
+
         $fileHandler = fopen( $filename, 'rt' );
+        if ( !$fileHandler ) {
+            return null;
+        }
+
         flock( $fileHandler, LOCK_EX );
         $fileSize = filesize( $filename );
         $content = ( $fileSize ? fread( $fileHandler, filesize( $filename ) ) : null );
@@ -95,7 +103,7 @@ class FileTools
      */
     static function getPluginFolderName()
     {
-        return 'clickervolt';
+        return basename( dirname( __DIR__ ) );
     }
     
     /**

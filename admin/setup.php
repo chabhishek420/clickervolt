@@ -82,59 +82,58 @@ class Setup
     {
         if ($hook == "toplevel_page_clickervolt") {
             $version = DB::VERSION;
-
-            $clickerVoltBaseFolder = FileTools::getPluginFolderName();
+            $pluginBaseUrl = plugin_dir_url(CLICKERVOLT_PLUGIN_FILE);
 
             $jsFiles = [
-                'clickervolt-functions.js' => "/{$clickerVoltBaseFolder}/admin/js/functions.js",
-                'clickervolt-stats.js' => "/{$clickerVoltBaseFolder}/admin/js/stats.js",
-                'clickervolt-modals.js' => "/{$clickerVoltBaseFolder}/admin/js/modals.js",
-                'clickervolt-affiliate-networks.js' => "/{$clickerVoltBaseFolder}/admin/js/affiliate-networks.js",
-                'clickervolt-validator-1.js' => "/{$clickerVoltBaseFolder}/admin/js/others/validator/jquery.validate.min.js",
-                'clickervolt-validator-2.js' => "/{$clickerVoltBaseFolder}/admin/js/others/validator/additional-methods.min.js",
-                'datatables-jquery' => "/{$clickerVoltBaseFolder}/admin/js/others/datatables/jquery.dataTables.min.js",
-                'datatables-buttons' => "/{$clickerVoltBaseFolder}/admin/js/others/datatables/dataTables.buttons.min.js",
-                'datatables-colVis' => "/{$clickerVoltBaseFolder}/admin/js/others/datatables/buttons.colVis.min.js",
-                'datatables-html5' => "/{$clickerVoltBaseFolder}/admin/js/others/datatables/buttons.html5.min.js",
-                'datatables-fixedColumns' => "/{$clickerVoltBaseFolder}/admin/js/others/datatables/dataTables.fixedColumns.min.js",
-                'datatables-fixedHeader' => "/{$clickerVoltBaseFolder}/admin/js/others/datatables/dataTables.fixedHeader.min.js",
-                'clickervolt-datatables-treegrid' => "/{$clickerVoltBaseFolder}/admin/js/others/datatables/datatables.treegrid.js",
-                'clickervolt-maximize-select2' => "/{$clickerVoltBaseFolder}/admin/js/others/ux/maximize-select2-height.min.js",
-                'select2' => "/{$clickerVoltBaseFolder}/admin/js/others/select2/select2.full.min.js",
-                'jquery.dropdown' => "/{$clickerVoltBaseFolder}/admin/js/others/ux/jquery.dropdown.min.js",
-                'moment.min.js' => "/{$clickerVoltBaseFolder}/admin/js/others/moment/moment.min.js",
-                'daterangepicker.min.js' => "/{$clickerVoltBaseFolder}/admin/js/others/daterangepicker/daterangepicker.min.js",
-                'jquery-confirm.min.js' => "/{$clickerVoltBaseFolder}/admin/js/others/jquery-confirm/jquery-confirm.min.js",
-                'ace1.4.2.js' => "/{$clickerVoltBaseFolder}/admin/js/others/ace/ace.js",
-                'ace1.4.2-theme-monokai.js' => "/{$clickerVoltBaseFolder}/admin/js/others/ace/theme-monokai.js",
-                'ace1.4.2-mode-html.js' => "/{$clickerVoltBaseFolder}/admin/js/others/ace/mode-html.js",
-                'ace1.4.2-mode-php.js' => "/{$clickerVoltBaseFolder}/admin/js/others/ace/mode-php.js",
-                'ace1.4.2-worker-html.js' => "/{$clickerVoltBaseFolder}/admin/js/others/ace/worker-html.js",
-                'ace1.4.2-worker-php.js' => "/{$clickerVoltBaseFolder}/admin/js/others/ace/worker-php.js",
+                'clickervolt-functions.js' => 'admin/js/functions.js',
+                'clickervolt-stats.js' => 'admin/js/stats.js',
+                'clickervolt-modals.js' => 'admin/js/modals.js',
+                'clickervolt-affiliate-networks.js' => 'admin/js/affiliate-networks.js',
+                'clickervolt-validator-1.js' => 'admin/js/others/validator/jquery.validate.min.js',
+                'clickervolt-validator-2.js' => 'admin/js/others/validator/additional-methods.min.js',
+                'datatables-jquery' => 'admin/js/others/datatables/jquery.dataTables.min.js',
+                'datatables-buttons' => 'admin/js/others/datatables/dataTables.buttons.min.js',
+                'datatables-colVis' => 'admin/js/others/datatables/buttons.colVis.min.js',
+                'datatables-html5' => 'admin/js/others/datatables/buttons.html5.min.js',
+                'datatables-fixedColumns' => 'admin/js/others/datatables/dataTables.fixedColumns.min.js',
+                'datatables-fixedHeader' => 'admin/js/others/datatables/dataTables.fixedHeader.min.js',
+                'clickervolt-datatables-treegrid' => 'admin/js/others/datatables/datatables.treegrid.js',
+                'clickervolt-maximize-select2' => 'admin/js/others/ux/maximize-select2-height.min.js',
+                'select2' => 'admin/js/others/select2/select2.full.min.js',
+                'jquery.dropdown' => 'admin/js/others/ux/jquery.dropdown.min.js',
+                'moment.min.js' => 'admin/js/others/moment/moment.min.js',
+                'daterangepicker.min.js' => 'admin/js/others/daterangepicker/daterangepicker.min.js',
+                'jquery-confirm.min.js' => 'admin/js/others/jquery-confirm/jquery-confirm.min.js',
+                'ace1.4.2.js' => 'admin/js/others/ace/ace.js',
+                'ace1.4.2-theme-monokai.js' => 'admin/js/others/ace/theme-monokai.js',
+                'ace1.4.2-mode-html.js' => 'admin/js/others/ace/mode-html.js',
+                'ace1.4.2-mode-php.js' => 'admin/js/others/ace/mode-php.js',
+                'ace1.4.2-worker-html.js' => 'admin/js/others/ace/worker-html.js',
+                'ace1.4.2-worker-php.js' => 'admin/js/others/ace/worker-php.js',
                 'jquery-ui-accordion' => "",
             ];
 
             $cssFiles = [
-                'clickervolt-styles.css' => "/{$clickerVoltBaseFolder}/admin/css/styles.css",
-                'datatables-jquery' => "/{$clickerVoltBaseFolder}/admin/js/others/datatables/css/jquery.dataTables.min.css",
-                'datatables-buttons' => "/{$clickerVoltBaseFolder}/admin/js/others/datatables/css/buttons.dataTables.min.css",
-                'datatables-fixedColumns' => "/{$clickerVoltBaseFolder}/admin/js/others/datatables/css/fixedColumns.dataTables.min.css",
-                'datatables-fixedHeader' => "/{$clickerVoltBaseFolder}/admin/js/others/datatables/css/fixedHeader.dataTables.min.css",
-                'select2' => "/{$clickerVoltBaseFolder}/admin/js/others/select2/css/select2.min.css",
-                'daterangepicker.css' => "/{$clickerVoltBaseFolder}/admin/js/others/daterangepicker/css/daterangepicker.css",
-                'jquery-confirm.min.css' => "/{$clickerVoltBaseFolder}/admin/js/others/jquery-confirm/css/jquery-confirm.min.css",
+                'clickervolt-styles.css' => 'admin/css/styles.css',
+                'datatables-jquery' => 'admin/js/others/datatables/css/jquery.dataTables.min.css',
+                'datatables-buttons' => 'admin/js/others/datatables/css/buttons.dataTables.min.css',
+                'datatables-fixedColumns' => 'admin/js/others/datatables/css/fixedColumns.dataTables.min.css',
+                'datatables-fixedHeader' => 'admin/js/others/datatables/css/fixedHeader.dataTables.min.css',
+                'select2' => 'admin/js/others/select2/css/select2.min.css',
+                'daterangepicker.css' => 'admin/js/others/daterangepicker/css/daterangepicker.css',
+                'jquery-confirm.min.css' => 'admin/js/others/jquery-confirm/css/jquery-confirm.min.css',
             ];
 
             foreach ($jsFiles as $handle => $file) {
                 if (!empty($file)) {
-                    wp_enqueue_script($handle, plugins_url($file), [], $version, true);
+                    wp_enqueue_script($handle, $pluginBaseUrl . ltrim($file, '/'), ['jquery'], $version, false);
                 } else {
                     wp_enqueue_script($handle);
                 }
             }
 
             foreach ($cssFiles as $handle => $file) {
-                wp_enqueue_style($handle, plugins_url($file), [], $version);
+                wp_enqueue_style($handle, $pluginBaseUrl . ltrim($file, '/'), [], $version);
             }
 
             self::localizeJS();
@@ -149,7 +148,7 @@ class Setup
         $clickerVoltVars = [
             'urls' => [
                 'home' => get_site_url(),
-                'plugin' => plugins_url() . '/clickervolt',
+                'plugin' => untrailingslashit(plugin_dir_url(CLICKERVOLT_PLUGIN_FILE)),
                 'ajax' => admin_url('admin-ajax.php'),
             ],
             'clickervolt_nonce' => wp_create_nonce('clickervolt'),
